@@ -26,6 +26,74 @@ class LinkedList {
     }
   }
 
+  getSize() {
+    let temp = this.head;
+    let count = 0;
+    while (temp) {
+      count += 1;
+      temp = temp.nextNode;
+    }
+    return count;
+  }
+
+  getHead() {
+    return this.head;
+  }
+
+  getTail() {
+    let temp = this.head;
+    let tail;
+    while (temp) {
+      tail = temp;
+      temp = temp.nextNode;
+    }
+    return tail;
+  }
+
+  at(index) {
+    let traversedNodeCount = 0;
+    let temp = this.head;
+    while (traversedNodeCount < index) {
+      traversedNodeCount += 1;
+      temp = temp.nextNode;
+    }
+    return traversedNodeCount === index ? temp : new Error("Invalid Index");
+  }
+
+  pop() {
+    let temp = this.head;
+    let previousNode;
+    while (temp !== this.getTail()) {
+      previousNode = temp;
+      temp = temp.nextNode;
+    }
+    previousNode.nextNode = null;
+  }
+
+  contains(value) {
+    let temp = this.head;
+    while (temp) {
+      if (temp.value === value) return true;
+      temp = temp.nextNode;
+    }
+    return false;
+  }
+
+  find(value) {
+    let temp = this.head;
+    let traversedNodeCount = 0;
+    let valueFound = false;
+    while (temp) {
+      if (temp.value === value) {
+        valueFound = true;
+        break;
+      }
+      traversedNodeCount += 1;
+      temp = temp.nextNode;
+    }
+    return valueFound ? traversedNodeCount : null;
+  }
+
   toString() {
     let temp = this.head;
     let resultString = "";
@@ -36,16 +104,21 @@ class LinkedList {
     resultString += null;
     return resultString;
   }
+
+  insertAt(value, index) {
+    const valueNodeToInsert = new Node(value, this.at(index));
+    if (index === 0) this.prepand(value);
+    else {
+      const previousNode = this.at(index - 1);
+      previousNode.nextNode = valueNodeToInsert;
+    }
+  }
+
+  removeAt(index) {
+    if (index === 0) this.pop();
+    else {
+      const previousNode = this.at(index - 1);
+      previousNode.nextNode = previousNode.nextNode.nextNode;
+    }
+  }
 }
-
-const list = new LinkedList();
-
-list.append("dog");
-list.append("cat");
-list.append("parrot");
-list.append("hamster");
-list.append("snake");
-list.append("turtle");
-list.prepand("monkey");
-list.prepand("panda");
-console.log(list.toString());
