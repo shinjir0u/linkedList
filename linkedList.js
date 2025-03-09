@@ -61,6 +61,10 @@ class LinkedList {
   }
 
   pop() {
+    if (this.getSize() === 0) {
+      this.head = new Node();
+      return;
+    }
     let temp = this.head;
     let previousNode;
     while (temp !== this.getTail()) {
