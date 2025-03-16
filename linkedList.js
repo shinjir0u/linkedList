@@ -66,10 +66,15 @@ class LinkedList {
     return this.contains(value, node.nextNode);
   }
 
-  find(value, node = this.#head) {
-    if (node === null) return node;
-    if (node.value === value) return node;
-    return this.find(value, node.nextNode);
+  find(value) {
+    const index = this.#findHelper(value, this.#head);
+    return Number.isInteger(index) ? index : null;
+  }
+
+  #findHelper(value, node) {
+    if (node === null) return NaN;
+    if (node.value === value) return 0;
+    return 1 + this.#findHelper(value, node.nextNode);
   }
 
   toString(node = this.#head) {
@@ -100,4 +105,6 @@ class LinkedList {
 
 export default LinkedList;
 
-console.log(new LinkedList().head())
+const linkedList = new LinkedList([1, 2, 3, 4, 5]);
+console.log(linkedList.toString());
+console.log(linkedList.find(2));
