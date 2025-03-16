@@ -1,9 +1,11 @@
 import Node from "./node.js";
 
 class LinkedList {
+  #head;
+
   constructor(array = []) {
     this.array = array;
-    this.head = this.buildLinkList(this.array);
+    this.#head = this.buildLinkList(this.array);
   }
 
   buildLinkList(array) {
@@ -13,9 +15,9 @@ class LinkedList {
     return head;
   }
 
-  append(value, node = this.head) {
-    if (this.head === null) {
-      this.head = new Node(value);
+  append(value, node = this.#head) {
+    if (this.#head === null) {
+      this.#head = new Node(value);
       return;
     }
     if (node === null) return new Node(value);
@@ -24,53 +26,53 @@ class LinkedList {
   }
 
   prepend(value) {
-    if (this.head === null) {
-      this.head = new Node(value);
+    if (this.#head === null) {
+      this.#head = new Node(value);
       return;
     }
     const node = new Node(value);
-    [node.nextNode, this.head] = [this.head, node];
+    [node.nextNode, this.#head] = [this.#head, node];
   }
 
-  size(node = this.head) {
+  size(node = this.#head) {
     if (node === null) return 0;
     return 1 + this.size(node.nextNode);
   }
 
   head() {
-    return this.head;
+    return this.#head;
   }
 
-  tail(node = this.head) {
+  tail(node = this.#head) {
     if (node.nextNode === null) return node;
     return this.tail(node.nextNode);
   }
 
-  at(index, node = this.head, currentIndex = 0) {
+  at(index, node = this.#head, currentIndex = 0) {
     if (index === currentIndex) return node;
     if (node === null) return new Error("Invalid Index");
     return this.at(index, node.nextNode, currentIndex + 1);
   }
 
-  pop(node = this.head) {
+  pop(node = this.#head) {
     if (node === null || node.nextNode === null) return null;
     node.nextNode = this.pop(node.nextNode);
     return node;
   }
 
-  contains(value, node = this.head) {
+  contains(value, node = this.#head) {
     if (node === null) return false;
     if (node.value === value) return true;
     return this.contains(value, node.nextNode);
   }
 
-  find(value, node = this.head) {
+  find(value, node = this.#head) {
     if (node === null) return node;
     if (node.value === value) return node;
     return this.find(value, node.nextNode);
   }
 
-  toString(node = this.head) {
+  toString(node = this.#head) {
     if (node === null) return node;
     return `( ${node.value} ) -> ` + this.toString(node.nextNode);
   }
@@ -88,7 +90,7 @@ class LinkedList {
   }
 
   removeAt(index) {
-    if (index === 0) this.head = this.head.nextNode;
+    if (index === 0) this.#head = this.#head.nextNode;
     else {
       const previousNode = this.at(index - 1);
       previousNode.nextNode = previousNode.nextNode.nextNode;
@@ -97,3 +99,5 @@ class LinkedList {
 }
 
 export default LinkedList;
+
+console.log(new LinkedList().head())
